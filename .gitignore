@@ -1,0 +1,5 @@
+.ipynb_checkpoints/
+data/auth.json
+data/plotbot.pem
+data/plotbot.ppk
+data/Twitter_API.PNG
