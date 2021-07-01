@@ -93,14 +93,14 @@ def tweet(randomize=False, hashtags=False):
 
     if randomize:
         # key of the random entry
-        plot_key = np.random.choice(list(data.keys()))
+        title = np.random.choice(list(data.keys()))
     else:
-        plot_key = list(data.keys())[0]
+        title = list(data.keys())[0]
 
-    plot = data[plot_key]
+    plot = title + "\n\n" + data[title]
 
     # delete plot from JSON file
-    del data[plot_key]
+    del data[title]
     with open("plotbot.json", "w") as f:
         data = json.dump(data, f, indent=4, sort_keys=False)
 
