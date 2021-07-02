@@ -3,3 +3,5 @@ data/auth.json
 plotbot.pem
 plotbot.ppk
 data/Twitter_API.PNG
+data/deny_words.txt
+data/title_filter_words.txt
