@@ -2,6 +2,7 @@
 
 import re
 import json
+import random
 from collections import Counter
 from typing import Dict, List, Tuple
 
@@ -165,6 +166,36 @@ def filter_plots(
     return filtered_d
 
 
+def filter_out_real_titles(folderpath: str, plot_dict: Dict[str, str], keep_ratio: float) -> Dict[str, str]:
+    """Since titles are short, the model will generate titles that are real
+       movie titles fairly often. The descriptions are not real, so the results
+       are entertaining. This function filters out key:values in plot_dict and
+       keeps a ratio of them.
+
+    Args:
+        folderpath (str): Path to data folder with all_titles.txt
+        plot_dict (Dict[str, str]): Dictionary of generated plots with titles: plots.
+        keep_ratio (float): Ratio of how many plots with real titles to keep. 0.3 will
+           keep 30% of the keys with real titles.
+
+    Returns:
+        Dict[str, str]: A dictionary with all generated plots with titles that are not
+           real titles, and the subset of generated plots with real titles.
+    """
+    all_titles = get_text_data(folderpath, "all_titles.txt", "|")
+    generated_titles = list(plot_dict.keys())
+    real_titles_in_generated_data = [i for i in generated_titles if i in all_titles]
+    org_titles = [i for i in generated_titles if i not in all_titles]
+    sample_n = int(keep_ratio*len(real_titles_in_generated_data))
+    samples = random.sample(real_titles_in_generated_data, sample_n)
+    reduced_titles = org_titles + samples
+    random.shuffle(reduced_titles)
+    reduced_d = {}
+    for k in reduced_titles:
+        reduced_d[k] = plot_dict[k]
+    return reduced_d
+
+
 def update_json(filepath: str, filename: str, new_plots_d: Dict[str, str]) -> None:
     """Pull data from plots json file, add data from new_plots_d, and write data
        back to json file.
@@ -179,8 +210,18 @@ def update_json(filepath: str, filename: str, new_plots_d: Dict[str, str]) -> No
     with open(json_path, "r") as f:
         data = json.load(f)
     f.close()
+    print("Number of plots in json file:", len(data))
+    print("Number of plots to add:", len(new_plots_d))
     # update dictionary data from json file and write new+old data back to the json file
     data.update(new_plots_d)
+    print("Updated plot number:", len(data))
     with open(json_path, "w") as f:
         json.dump(data, f, indent=4, sort_keys=False)
     f.close()
+    print("Finished updating plots!")
+    # check file after update
+    with open(json_path, "r") as f:
+        data = json.load(f)
+    f.close()
+    print("Re-read number of plots:", len(data))
+
