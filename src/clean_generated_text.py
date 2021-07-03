@@ -20,13 +20,22 @@ if __name__ == "__main__":
     search_words = space_words + fantasy_words + horror_words
 
     plot_data = hf.get_text_data(data_folder, "generated_text.txt", "\n<|endoftext|>\n")
+    print("number of generated plots:", len(plot_data))
 
     clean_plots = hf.clean_plots(plot_data, charlim=True)
+    print("number of clean plots:", len(clean_plots))
     plot_d = hf.get_cleaner_plot_dict(clean_plots, title_filter_words)
+    print("number of cleaner plots:", len(plot_d))
 
     # If plots will be filtered to a list containing keywords, use this function
     if args.filter:
         plot_d = hf.filter_plots(plot_d, search_words, deny_words)
+        print("number of filtered plots:", len(plot_d))
+
+    # Keep a subset of plots that have real titles
+    plot_d = hf.filter_out_real_titles(data_folder, plot_d, 0.3)
+    print("number of final filtered plots:", len(plot_d))
+    print("-"*40)
 
     # Write new files to json
     hf.update_json(data_folder, args.filename, plot_d)
