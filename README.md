@@ -34,12 +34,12 @@ Movie production has increased over the years due to movies becoming more popula
 
 There was some data for 2020 but it was not complete for the whole year so it was dropped. It looks like 2017 had the highest number of movies released with a total of 3329 releases.
 
+## Feature Extraction
+
 <div align="center">
     <img src="images/under_construction.gif" width="200" height="auto"/>
     <p>This repo is under construction.</p>
 </div>
-
-## Feature Extraction
 
 # Text Generation Models
 For this project, a RNN (recurrent neural network) was initially used to generate plots. The RNN model did a decent job generating samples, but did not provide plots that made sense often. Using a transformer model greatly improved the coherency of the generated text.
@@ -79,7 +79,9 @@ Transformers allow for parallel computation and do much better with longer depen
 - Cleaned the resulting data using either the `process_generated_text.ipynb` notebook, or using the related `clean_generated_text.py` script in the src folder.
 
 The plots were cleaned due to a few issues. Some were just incomplete plots, and looked like:
+
 > "A dragon by the name of ..."
+
 I filtered out longer plots that would not fit within the character limit of twitter. An addition to the tweet script added some logic to break up longer plots and tweet the first chunk, followed by comments to continue the tweet, but ultimately I didn't want longer plots so they were just deleted.
 I also filtered the generated plots to only save one that had keyword matches with words that were related to science fiction, fantasy, and horror. This was to try to filter out the majority of plots that revolved around romance only. It seems that is a pretty common theme in movies and it was not very interesting to me.
 
