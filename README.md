@@ -111,11 +111,14 @@ I have been using CLIP with VQGAN to generate machine learning art from text pro
 
 Using an example of a title / plot as a text prompt, I would have the following:
 
+---
 
 <div align="center">
   <p>Island in the Sky</p>
     <img src="images/Island_in_the_Sky+A_team_of_international_astronauts_is_sent_on_a_dangerous_mission_to_the_moon,_where_they_become_trapped_by_a_V_2021-07-03_16-31.png" width="250" height="auto"/>
     <p>A team of international astronauts is sent on a dangerous mission to the moon, where they become trapped by a V.P. and his people.</p>
 </div>
+
+---
 
 If these look interesting I will implement this in the next update.
